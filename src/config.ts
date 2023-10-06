@@ -6,6 +6,15 @@ export type Config = {
     port: number;
     host: string;
     urlMount: string;
+    db: DBConfig;
+};
+
+export type DBConfig = {
+    password: string;
+    user: string;
+    name: string;
+    port: number;
+    host: string;
 };
 
 dotenv.config();
@@ -19,6 +28,13 @@ const config: Config = {
     port: +(process.env.PORT || 8000),
     host: process.env.HOST || '127.0.0.1',
     urlMount: process.env.URL_MOUNT || '/api',
+    db: {
+        password: process.env.DB_PASSWORD || '',
+        user: process.env.DB_USER || '',
+        name: process.env.DB_NAME || '',
+        port: +(process.env.DB_PORT || 5432),
+        host: process.env.DB_HOST || 'localhost',
+    },
 };
 
 export default config;
