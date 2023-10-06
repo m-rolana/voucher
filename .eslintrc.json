@@ -1,0 +1,25 @@
+{
+    "env": {
+        "es2020": true,
+        "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": { "project": ["./tsconfig.json"] },
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+        "no-trailing-spaces": "error",
+        "no-unused-vars": "off", // on - considers enum values as unused
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "indent": "off",
+        "@typescript-eslint/indent": ["error", 4, {
+            "ignoredNodes": ["PropertyDefinition[decorators]"],
+            "SwitchCase": 1
+        }],
+        "no-case-declarations": "off"
+    }
+}
