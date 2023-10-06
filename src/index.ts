@@ -1,4 +1,5 @@
 import 'module-alias/register';
+import config from '@/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import { getErrorMessage } from '@/services/error';
@@ -9,7 +10,7 @@ const errorHandler: express.ErrorRequestHandler = (err, req, res, next) => {
         next();
     }
 
-    // logger.error(err);
+    logger.error(err);
 
     res.status(500).send(getErrorMessage(err));
 };
@@ -20,7 +21,7 @@ app.use(bodyParser.json());
 app.use(errorHandler);
 
 const server = app.listen(() => {
-    logger.info(`Server is listening at ${'localhost'}:${'3000'}`);
+    logger.info(`Server is listening at ${config.host}:${config.port}`);
 });
 
 // graceful shutdown
