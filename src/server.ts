@@ -4,6 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { getErrorMessage } from '@/services/error';
 import { logger, db } from '@/services';
+import createRouter from '@/routers';
 
 const errorHandler: express.ErrorRequestHandler = (err, req, res, next) => {
     if (!err) {
@@ -19,9 +20,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(errorHandler);
-
-
-
+app.use(config.urlMount, createRouter());
 
 
 async function init() {
@@ -29,7 +28,7 @@ async function init() {
 
     await db.connect();
 
-    const server = app.listen(() => {
+    const server = app.listen(config.port, () => {
         logger.info(`Server is listening at ${config.host}:${config.port}`);
     });
 

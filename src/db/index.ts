@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import config from '@/config';
 import { ILogger } from '@/services/logger';
+import RepoManager from '@/db/repo';
 
 const { host, port, password, user: username, name: database } = config.db;
 
@@ -26,6 +27,10 @@ class DB {
 
     get connection() {
         return this._db;
+    }
+
+    get repoManager() {
+        return new RepoManager(this._db);
     }
 
     connect() {
