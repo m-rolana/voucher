@@ -13,6 +13,17 @@ class CampaignController {
             return next('Failed to create campaign');
         }
     }
+
+    async list(req: Request, res: Response, next: NextFunction) {
+        try {
+            // TODO: add pagination & filter
+            const campaigns = await db.repoManager.campaignRepo.find();
+            res.json(campaigns);
+        } catch(e) {
+            logger.error(e);
+            return next('Failed to list campaigns');
+        }
+    }
 }
 
 export default CampaignController;

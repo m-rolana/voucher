@@ -19,6 +19,10 @@ class BaseRepo {
         return this.repo.save(data);
     }
 
+    find() {
+        return this.repo.find();
+    }
+
     findById(id: string) {
         return this.repo.findOne({
             where: { id },
