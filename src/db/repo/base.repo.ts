@@ -15,7 +15,7 @@ class BaseRepo {
         return this.repo;
     }
 
-    save(data: object) {
+    create(data: object) {
         return this.repo.save(data);
     }
 

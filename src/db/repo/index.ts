@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import CampaignRepo from '@/db/repo/campaign.repo';
+import VoucherRepo from '@/db/repo/voucher.repo';
 import { IRepoManager } from "../types";
 
 
@@ -12,6 +13,10 @@ class RepoManager implements IRepoManager {
 
     get campaignRepo() {
         return new CampaignRepo(this._dataSource);
+    }
+
+    get voucherRepo() {
+        return new VoucherRepo(this._dataSource);
     }
 }
 

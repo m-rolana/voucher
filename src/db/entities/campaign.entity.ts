@@ -1,13 +1,8 @@
 import { Entity, Column } from 'typeorm';
 import BaseEntity from '@/db/entities/base';
+import { PREFIX } from '@/types';
 
 enum CURRENCY { USD = 'USD', EUR = 'EUR' }
-enum PREFIX {
-    RECHARGE = 'RECHARGE',
-    GIFT_CARD = 'GIFT_CARD',
-    FREE_SHIPPING = 'FREE_SHIPPING',
-    DISCOUNT = 'DISCOUNT',
-}
 
 @Entity()
 export class Campaign extends BaseEntity {

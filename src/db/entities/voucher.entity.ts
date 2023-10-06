@@ -4,14 +4,16 @@ import { Campaign } from '@/db/entities/campaign.entity';
 
 @Entity()
 export class Voucher extends BaseEntity {
-    // TODO: add validator for prefix-XXXXXX
     @Column({
         name: 'discount_code',
         nullable: false,
     })
     discountCode!: string;
 
+    @Column({ name: 'campaign_id' })
+    campaignId!: string;
+
     @ManyToOne(() => Campaign)
-    @JoinColumn({ name: 'campaign_id' })
+    @JoinColumn()
     campaign?: Campaign;
 }

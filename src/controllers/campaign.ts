@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from '@/types';
 class CampaignController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const campaign = await db.repoManager.campaignRepo.save(req.body);
+            const campaign = await db.repoManager.campaignRepo.create(req.body);
             res.json(campaign);
         } catch(e) {
             logger.error(e);
