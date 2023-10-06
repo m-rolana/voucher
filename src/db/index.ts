@@ -3,13 +3,13 @@ import { DataSource } from 'typeorm';
 import config from '@/config';
 import { ILogger } from '@/services/logger';
 
-const { port, password, user: username, name: database } = config.db;
+const { host, port, password, user: username, name: database } = config.db;
 
 class DB {
     private readonly _logger: ILogger;
     private readonly _db = new DataSource({
         type: 'postgres',
-        host: 'localhost',
+        host,
         port,
         username,
         password,

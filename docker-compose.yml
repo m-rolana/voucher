@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+
+  db:
+    image: "postgres:15.4"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${DB_PORT}:5432
+    volumes:
+      - db-data:${DB_DATA} # persist data even if container shuts down
+    restart: always
+
+volumes:
+  db-data:
