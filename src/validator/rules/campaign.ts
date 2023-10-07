@@ -15,4 +15,8 @@ export default {
             .valid(...Object.values(PREFIX))
             .required(),
     }),
+    list: Joi.object({
+        take: Joi.number().min(1).max(100),
+        skip: Joi.number().min(0),
+    }),
 };

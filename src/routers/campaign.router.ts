@@ -7,7 +7,7 @@ function createRouter() {
     const router = express.Router();
 
     router.post('/', validator.run('campaign.create'), campaignController.create);
-    router.get('/', campaignController.list);
+    router.get('/',  validator.run('campaign.list'), campaignController.list);
     router.delete('/:id', campaignController.delete);
 
     return router;

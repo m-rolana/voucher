@@ -16,8 +16,9 @@ class CampaignController {
 
     async list(req: Request, res: Response, next: NextFunction) {
         try {
-            // TODO: add pagination & filter
-            const campaigns = await db.repoManager.campaignRepo.find({});
+            // TODO: add filter
+            const { take, skip } = req.query;
+            const campaigns = await db.repoManager.campaignRepo.find({ take, skip });
             res.json(campaigns);
         } catch(e) {
             logger.error(e);
