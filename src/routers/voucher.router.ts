@@ -7,6 +7,7 @@ function createRouter() {
 
     router.post('/batch', voucherController.createMany);
     router.get('/', voucherController.list);
+    router.get('/export', voucherController.export);
 
     return router;
 }
