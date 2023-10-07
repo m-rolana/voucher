@@ -19,8 +19,9 @@ class BaseRepo {
         return this.repo.save(data);
     }
 
-    find() {
-        return this.repo.find();
+    async find(options: object) {
+        const result = await this.repo.find(options);
+        return result;
     }
 
     findById(id: string) {

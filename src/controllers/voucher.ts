@@ -14,7 +14,32 @@ class VoucherController {
             }
 
             const vouchers = await db.repoManager.voucherRepo.createMany(campaign.id, campaign.prefix, amount);
-            res.json(vouchers);
+            res.status(200).json(vouchers);
+        } catch(e) {
+            logger.error(e);
+            return next('Failed to create vouchers');
+        }
+    }
+
+    async list(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { campaignId } = req.query;
+
+            if (!campaignId) {
+                const message = `Invalid campaign id: ${campaignId}`;
+                logger.error(message);
+                return res.status(400).json({ success: false });
+            }
+
+            const vouchers = await db.repoManager.voucherRepo.find({ where: { campaignId } });
+
+            if (!vouchers || !vouchers.length) {
+                const message = `There is no voucher for campaign ${campaignId}`;
+                logger.error(message);
+                return res.status(404).json({ success: false });
+            }
+
+            res.status(200).json(vouchers);
         } catch(e) {
             logger.error(e);
             return next('Failed to create vouchers');

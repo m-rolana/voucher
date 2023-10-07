@@ -6,6 +6,7 @@ function createRouter() {
     const router = express.Router();
 
     router.post('/batch', voucherController.createMany);
+    router.get('/', voucherController.list);
 
     return router;
 }
