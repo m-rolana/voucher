@@ -1,4 +1,5 @@
 import express from 'express';
+import Joi from 'joi';
 
 export type Request = express.Request;
 export type Response = express.Response;
@@ -10,3 +11,11 @@ export enum PREFIX {
     FREE_SHIPPING = 'FREE_SHIPPING',
     DISCOUNT = 'DISCOUNT',
 }
+
+export enum CURRENCY { USD = 'USD', EUR = 'EUR' }
+
+// export type ValidationSchema = {
+//     [key: string]: Joi.ObjectSchema;
+// };
+
+export type ValidationSchema = Joi.ObjectSchema;

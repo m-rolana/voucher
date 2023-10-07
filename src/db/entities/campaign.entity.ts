@@ -1,9 +1,8 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 import BaseEntity from '@/db/entities/base';
-import { PREFIX } from '@/types';
+import { PREFIX, CURRENCY } from '@/types';
 import { Voucher } from './voucher.entity';
 
-enum CURRENCY { USD = 'USD', EUR = 'EUR' }
 
 @Entity()
 export class Campaign extends BaseEntity {
