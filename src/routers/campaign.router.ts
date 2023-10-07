@@ -7,6 +7,7 @@ function createRouter() {
 
     router.post('/', campaignController.create);
     router.get('/', campaignController.list);
+    router.delete('/:id', campaignController.delete);
 
     return router;
 }

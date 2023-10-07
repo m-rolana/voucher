@@ -1,6 +1,7 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import BaseEntity from '@/db/entities/base';
 import { PREFIX } from '@/types';
+import { Voucher } from './voucher.entity';
 
 enum CURRENCY { USD = 'USD', EUR = 'EUR' }
 
@@ -39,4 +40,9 @@ export class Campaign extends BaseEntity {
         nullable: false,
     })
     prefix!: PREFIX;
+
+    @OneToMany(() => Voucher, (voucher) => voucher.campaign, {
+        cascade: true,
+    })
+    vouchers?: Voucher[];
 }

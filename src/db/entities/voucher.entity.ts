@@ -13,7 +13,9 @@ export class Voucher extends BaseEntity {
     @Column({ name: 'campaign_id' })
     campaignId!: string;
 
-    @ManyToOne(() => Campaign)
-    @JoinColumn()
+    @ManyToOne(() => Campaign, {
+        onDelete: 'CASCADE',
+    })
+    @JoinColumn({ name: 'campaign_id' })
     campaign?: Campaign;
 }

@@ -20,8 +20,16 @@ class BaseRepo {
     }
 
     async find(options: object) {
-        const result = await this.repo.find(options);
-        return result;
+        return this.repo.find(options);
+    }
+
+    async deleteById(id: string, isSoft: boolean = true) {
+        const method = isSoft ? 'softDelete' : 'delete';
+        const result = await this.repo[method](id);
+
+        return {
+            success: !!result.affected,
+        };
     }
 
     findById(id: string) {

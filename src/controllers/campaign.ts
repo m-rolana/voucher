@@ -24,6 +24,18 @@ class CampaignController {
             return next('Failed to list campaigns');
         }
     }
+
+    async delete(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+            // TODO: fix Cascade option for soft delete
+            const result = await db.repoManager.campaignRepo.deleteById(id, false);
+            res.json({ success: result.success });
+        } catch(e) {
+            logger.error(e);
+            return next('Failed to delete campaign');
+        }
+    }
 }
 
 export default CampaignController;
