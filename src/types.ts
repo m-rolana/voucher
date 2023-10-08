@@ -49,3 +49,9 @@ export type ListVoucherInput = {
 export type ExportVouchersInput = {
     campaignId: string
 }
+
+export type CatchErrorParams = {
+    message: string,
+    toLog?: boolean,
+    toThrow?: boolean,
+}
