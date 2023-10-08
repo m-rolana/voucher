@@ -1,4 +1,4 @@
-import { getErrorMessage } from '@/services/error';
+import * as errorService from '@/services/error';
 import logger from '@/services/logger';
 import DB from '@/db';
 import { createCode } from './code';
@@ -10,10 +10,10 @@ const db = new DB(logger);
 const validator = new Validator(logger, rules);
 
 export {
-    getErrorMessage,
     logger,
     db,
     createCode,
     validator,
     requestService,
+    errorService,
 };

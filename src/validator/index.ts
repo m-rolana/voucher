@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import { Request, Response, NextFunction, ValidationSchema } from '@/types';
 import { ILogger } from "../services/logger";
-import { getErrorMessage, requestService } from '@/services';
+import { requestService } from '@/services';
+import { BadRequestError } from '@/services/error';
 
 class Validator {
     private logger: ILogger;
@@ -21,10 +22,7 @@ class Validator {
                 return next();
             } catch(e) {
                 this.logger.error(e);
-                res.status(400).json({
-                    success: false,
-                    message: `Invalid parameter: ${getErrorMessage(e)}`,
-                })
+                return next(new BadRequestError(`Invalid parameter: ${(e as Error).message}`));
             }
         }
     }

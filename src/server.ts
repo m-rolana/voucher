@@ -2,25 +2,14 @@ import 'module-alias/register';
 import config from '@/config';
 import express from 'express';
 import bodyParser from 'body-parser';
-import { getErrorMessage } from '@/services/error';
-import { logger, db } from '@/services';
+import { logger, db, errorService } from '@/services';
 import createRouter from '@/routers';
-
-const errorHandler: express.ErrorRequestHandler = (err, req, res, next) => {
-    if (!err) {
-        next();
-    }
-
-    logger.error(err);
-
-    res.status(500).send(getErrorMessage(err));
-};
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(errorHandler);
 app.use(config.urlMount, createRouter());
+app.use(errorService.handleRequestError);
 
 
 async function init() {

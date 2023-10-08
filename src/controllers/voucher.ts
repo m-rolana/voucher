@@ -1,11 +1,12 @@
-import { db, logger, requestService } from '@/services';
+import { db, logger } from '@/services';
 import { Request, Response, NextFunction, CreateVoucherManyInput, ListVoucherInput, ExportVouchersInput } from '@/types';
 import { stringify } from 'csv-stringify';
 import { IVoucherController, ControllerResponse } from './types';
-
-const { getRequestParams } = requestService;
+import { InternalError } from '@/services/error';
+import { getRequestParams } from '@/services/request';
 
 class VoucherController implements IVoucherController {
+    // TODO: add doc
     async createMany(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         try {
             const { campaignId, amount } = getRequestParams<CreateVoucherManyInput>(req);
@@ -19,10 +20,12 @@ class VoucherController implements IVoucherController {
             res.status(200).json(vouchers);
         } catch (e) {
             logger.error(e);
-            return next('Failed to create vouchers');
+            const message = 'Failed to create vouchers.';
+            return next(new InternalError(message));
         }
     }
 
+    // TODO: add doc
     // TODO: add pagination
     async list(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         try {
@@ -45,10 +48,12 @@ class VoucherController implements IVoucherController {
             res.status(200).json(vouchers);
         } catch (e) {
             logger.error(e);
-            return next('Failed to create vouchers');
+            const message = 'Failed to list vouchers.';
+            return next(new InternalError(message));
         }
     }
 
+    // TODO: add doc
     async export(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         try {
             const { campaignId } = getRequestParams<ExportVouchersInput>(req);
@@ -89,7 +94,8 @@ class VoucherController implements IVoucherController {
             stringifier.end();
         } catch (e) {
             logger.error(e);
-            return next('Failed to create vouchers');
+            const message = 'Failed to export vouchers.';
+            return next(new InternalError(message));
         }
     }
 }
