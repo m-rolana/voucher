@@ -44,6 +44,8 @@ export type CreateVoucherManyInput = {
 
 export type ListVoucherInput = {
     campaignId: string
+    take?: number
+    skip?: number
 }
 
 export type ExportVouchersInput = {
@@ -55,3 +57,5 @@ export type CatchErrorParams = {
     toLog?: boolean,
     toThrow?: boolean,
 }
+
+export type Callback = () => void;
