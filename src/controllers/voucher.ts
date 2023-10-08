@@ -1,9 +1,10 @@
-import { db, logger } from '@/services';
-import { Request, Response, CreateVoucherManyInput, ListVoucherInput, ExportVouchersInput } from '@/types';
+import { db } from '@/services';
+import { Request, Response, CreateVoucherManyInput, ListVoucherInput, ExportVouchersInput, NextFunction } from '@/types';
 import { stringify } from 'csv-stringify';
 import { IVoucherController, ControllerResponse } from './types';
 import { getRequestParams } from '@/services/request';
 import { CatchError } from '@/decorators';
+import { NotFoundError } from '@/services/error';
 
 class VoucherController implements IVoucherController {
     // TODO: add doc
@@ -23,36 +24,29 @@ class VoucherController implements IVoucherController {
     // TODO: add doc
     // TODO: add pagination
     @CatchError({ message: 'Failed to list vouchers.' })
-    async list(req: Request, res: Response): Promise<ControllerResponse> {
+    async list(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         const { campaignId } = getRequestParams<ListVoucherInput>(req);
 
         if (!campaignId) {
-            const message = `Invalid campaign id: ${campaignId}`;
-            logger.error(message);
-            return res.status(400).json({ success: false });
+            return next(new NotFoundError(`There is no campaign with id ${campaignId}`));
         }
 
         const vouchers = await db.repoManager.voucherRepo.find({ where: { campaignId } });
 
         if (!vouchers || !vouchers.length) {
-            const message = `There is no voucher for campaign ${campaignId}`;
-            logger.error(message);
-            return res.status(404).json({ success: false });
+            return next(new NotFoundError(`There is no voucher for campaign ${campaignId}`));
         }
 
         res.status(200).json(vouchers);
-
     }
 
     // TODO: add doc
     @CatchError({ message: 'Failed to export vouchers.' })
-    async export(req: Request, res: Response): Promise<ControllerResponse> {
+    async export(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         const { campaignId } = getRequestParams<ExportVouchersInput>(req);
 
         if (!campaignId) {
-            const message = `Invalid campaign id: ${campaignId}`;
-            logger.error(message);
-            return res.status(400).json({ success: false });
+            return next(new NotFoundError(`There is no campaign with id ${campaignId}`));
         }
 
         const filename = 'saved_from_db.csv';
@@ -70,9 +64,7 @@ class VoucherController implements IVoucherController {
         let vouchers = await db.repoManager.voucherRepo.find({ where: { campaignId }, take, skip });
 
         if (!vouchers || !vouchers.length) {
-            const message = `There is no voucher for campaign ${campaignId}`;
-            logger.error(message);
-            return res.status(404).json({ success: false });
+            return next(new NotFoundError(`There is no voucher for campaign ${campaignId}`));
         }
 
         while (vouchers.length) {
