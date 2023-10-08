@@ -1,9 +1,10 @@
 import { db, logger, requestService } from '@/services';
 import { Request, Response, NextFunction } from '@/types';
 import { stringify } from 'csv-stringify';
+import { IVoucherController, ControllerResponse } from './types';
 
-class VoucherController {
-    async createMany(req: Request, res: Response, next: NextFunction) {
+class VoucherController implements IVoucherController {
+    async createMany(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         try {
             const { campaignId, amount } = requestService.getRequestParams(req);
             const campaign = await db.repoManager.campaignRepo.findById(campaignId);
@@ -21,7 +22,7 @@ class VoucherController {
     }
 
     // TODO: add pagination
-    async list(req: Request, res: Response, next: NextFunction) {
+    async list(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         try {
             const { campaignId } = requestService.getRequestParams(req);
 
@@ -46,7 +47,7 @@ class VoucherController {
         }
     }
 
-    async export(req: Request, res: Response, next: NextFunction) {
+    async export(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         try {
             const { campaignId } = requestService.getRequestParams(req);
 
