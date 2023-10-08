@@ -1,12 +1,11 @@
-import { db, logger } from '@/services';
+import { db, logger, requestService } from '@/services';
 import { Request, Response, NextFunction } from '@/types';
 import { stringify } from 'csv-stringify';
-import fs from 'fs';
 
 class VoucherController {
     async createMany(req: Request, res: Response, next: NextFunction) {
         try {
-            const { campaignId, amount } = req.body;
+            const { campaignId, amount } = requestService.getRequestParams(req);
             const campaign = await db.repoManager.campaignRepo.findById(campaignId);
 
             if (!campaign) {
@@ -21,9 +20,10 @@ class VoucherController {
         }
     }
 
+    // TODO: add pagination
     async list(req: Request, res: Response, next: NextFunction) {
         try {
-            const { campaignId } = req.query;
+            const { campaignId } = requestService.getRequestParams(req);
 
             if (!campaignId) {
                 const message = `Invalid campaign id: ${campaignId}`;
@@ -48,7 +48,7 @@ class VoucherController {
 
     async export(req: Request, res: Response, next: NextFunction) {
         try {
-            const { campaignId } = req.query;
+            const { campaignId } = requestService.getRequestParams(req);
 
             if (!campaignId) {
                 const message = `Invalid campaign id: ${campaignId}`;

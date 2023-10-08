@@ -1,4 +1,4 @@
-import { db, logger } from '@/services';
+import { db, logger, requestService } from '@/services';
 import { Request, Response, NextFunction } from '@/types';
 
 
@@ -17,7 +17,7 @@ class CampaignController {
     async list(req: Request, res: Response, next: NextFunction) {
         try {
             // TODO: add filter
-            const { take, skip } = req.query;
+            const { take, skip } = requestService.getRequestParams(req);
             const campaigns = await db.repoManager.campaignRepo.find({ take, skip });
             res.json(campaigns);
         } catch(e) {
