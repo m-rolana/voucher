@@ -1,12 +1,14 @@
 import { db, logger, requestService } from '@/services';
-import { Request, Response, NextFunction } from '@/types';
+import { Request, Response, NextFunction, CreateVoucherManyInput, ListVoucherInput, ExportVouchersInput } from '@/types';
 import { stringify } from 'csv-stringify';
 import { IVoucherController, ControllerResponse } from './types';
+
+const { getRequestParams } = requestService;
 
 class VoucherController implements IVoucherController {
     async createMany(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         try {
-            const { campaignId, amount } = requestService.getRequestParams(req);
+            const { campaignId, amount } = getRequestParams<CreateVoucherManyInput>(req);
             const campaign = await db.repoManager.campaignRepo.findById(campaignId);
 
             if (!campaign) {
@@ -24,7 +26,7 @@ class VoucherController implements IVoucherController {
     // TODO: add pagination
     async list(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         try {
-            const { campaignId } = requestService.getRequestParams(req);
+            const { campaignId } = getRequestParams<ListVoucherInput>(req);
 
             if (!campaignId) {
                 const message = `Invalid campaign id: ${campaignId}`;
@@ -49,7 +51,7 @@ class VoucherController implements IVoucherController {
 
     async export(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
         try {
-            const { campaignId } = requestService.getRequestParams(req);
+            const { campaignId } = getRequestParams<ExportVouchersInput>(req);
 
             if (!campaignId) {
                 const message = `Invalid campaign id: ${campaignId}`;

@@ -11,11 +11,11 @@ class RepoManager implements IRepoManager {
         this._dataSource = dataSource;
     }
 
-    get campaignRepo() {
+    get campaignRepo(): CampaignRepo {
         return new CampaignRepo(this._dataSource);
     }
 
-    get voucherRepo() {
+    get voucherRepo(): VoucherRepo {
         return new VoucherRepo(this._dataSource);
     }
 }

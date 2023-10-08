@@ -1,6 +1,5 @@
-import { DataSource } from "typeorm";
+import { DataSource, ObjectLiteral, Repository } from "typeorm";
 import { Repo } from "../types";
-
 
 class BaseRepo {
     private dataSource: DataSource;
@@ -11,11 +10,11 @@ class BaseRepo {
         this.repo = this.dataSource.getRepository(entity);
     }
 
-    get originalRepo() {
+    get originalRepo(): Repository<ObjectLiteral> {
         return this.repo;
     }
 
-    create(data: object) {
+    create(data: object): Promise<object> {
         return this.repo.save(data);
     }
 

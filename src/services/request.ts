@@ -1,6 +1,6 @@
 import { Request } from '@/types';
 
-function getRequestParams(req: Request) {
+function getRequestParams<T>(req: Request): T {
     return req.method === 'GET' ? req.query : req.body;
 }
 

@@ -7,6 +7,7 @@ export type Config = {
     host: string;
     urlMount: string;
     db: DBConfig;
+    pageLimit: number,
 };
 
 export type DBConfig = {
@@ -35,6 +36,7 @@ const config: Config = {
         port: +(process.env.DB_PORT || 5432),
         host: process.env.DB_HOST || 'localhost',
     },
+    pageLimit: 100,
 };
 
 export default config;

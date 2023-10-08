@@ -19,3 +19,33 @@ export enum CURRENCY { USD = 'USD', EUR = 'EUR' }
 // };
 
 export type ValidationSchema = Joi.ObjectSchema;
+
+export type CreateCampaignInput = {
+    startsAt?: Date
+    endsAt?: Date
+    amount?: number
+    currency?: CURRENCY
+    prefix: PREFIX
+}
+
+export type ListCampaignInput = {
+    take?: number
+    skip?: number
+}
+
+export type DeleteCampaignInput = {
+    id: string
+}
+
+export type CreateVoucherManyInput = {
+    campaignId: string
+    amount: number
+}
+
+export type ListVoucherInput = {
+    campaignId: string
+}
+
+export type ExportVouchersInput = {
+    campaignId: string
+}
