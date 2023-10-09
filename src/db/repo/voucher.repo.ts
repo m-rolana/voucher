@@ -6,6 +6,8 @@ import { PREFIX } from '@/types';
 
 
 class VoucherRepo extends BaseRepo {
+    modelName = 'voucher';
+
     constructor(dataSource: DataSource) {
         super(dataSource, Voucher.name);
     }

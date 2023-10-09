@@ -4,10 +4,12 @@ import { Repo } from "../types";
 class BaseRepo {
     private dataSource: DataSource;
     protected repo: Repo;
+    modelName: string;
 
     constructor(dataSource: DataSource, entity: string) {
         this.dataSource = dataSource;
         this.repo = this.dataSource.getRepository(entity);
+        this.modelName = '';
     }
 
     get originalRepo(): Repository<ObjectLiteral> {
@@ -23,8 +25,14 @@ class BaseRepo {
     }
 
     async deleteById(id: string, isSoft: boolean = true) {
-        const method = isSoft ? 'softDelete' : 'delete';
-        const result = await this.repo[method](id);
+        // const method = isSoft ? 'softDelete' : 'delete';
+        const result = await this.repo
+            .createQueryBuilder(this.modelName)
+            .delete()
+            .returning('*')
+            .where(`id = '${id}'`)
+            .andWhere(`deleted_at is null`)
+            .execute();
 
         return {
             success: !!result.affected,

@@ -5,6 +5,8 @@ import { CreateCampaignInput } from "@/types";
 
 
 class CampaignRepo extends BaseRepo {
+    modelName = 'campaign';
+
     constructor(dataSource: DataSource) {
         super(dataSource, Campaign.name);
     }

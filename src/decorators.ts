@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CatchErrorParams } from '@/types';
 import { logger } from '@/services';
-import { InternalError } from '@/services/error';
+import { InternalError, SystemError } from '@/services/error';
 
 const toLogDefault = true;
 const toThrowDefault = true;
@@ -29,7 +29,8 @@ function CatchError(opts: CatchErrorParams = { message: 'Something went wrong.',
 
                 const next = args[2].name === 'next' ? args[2] : null;
                 if (opts.toThrow && next) {
-                    return next(new InternalError(opts.message));
+                    const error = e instanceof SystemError ? e : new InternalError(opts.message);
+                    return next(error);
                 }
                 throw e;
             }

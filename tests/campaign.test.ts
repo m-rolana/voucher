@@ -198,4 +198,26 @@ describe('Campaign controller test', () => {
             expect(result?.status).toBe(400);
         });
     });
+
+    describe('Campaign delete', () => {
+
+        it('Can delete', async () => {
+            const campaignId = '00000000-0000-0000-0000-000000000001';
+            const result = await apiRequest({ url: `campaigns/${campaignId}`, method: 'DELETE' });
+            expect(result?.status).toBe(200);
+        });
+
+        it('Can NOT delete non-existent', async () => {
+            const campaignId = '00000000-0000-0000-0000-000000000000';
+            const result = await apiRequest({ url: `campaigns/${campaignId}`, method: 'DELETE' });
+            expect(result?.status).toBe(404);
+        });
+
+        it('Can NOT delete by invalid id', async () => {
+            const campaignId = 'invalid';
+            const result = await apiRequest({ url: `campaigns/${campaignId}`, method: 'DELETE' });
+            expect(result?.status).toBe(500);
+        });
+
+    });
 });

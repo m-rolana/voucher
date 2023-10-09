@@ -4,6 +4,7 @@ import { getRequestParams } from '@/services/request';
 import { Request, Response, CreateCampaignInput, ListCampaignInput, DeleteCampaignInput } from '@/types';
 import { ICampaignController, ControllerResponse } from './types';
 import { CatchError } from '@/decorators';
+import { NotFoundError } from '@/services/error';
 
 class CampaignController implements ICampaignController {
     // TODO: add doc
@@ -27,9 +28,14 @@ class CampaignController implements ICampaignController {
     @CatchError({ message: 'Failed to delete campaign.' })
     async delete(req: Request, res: Response): Promise<ControllerResponse> {
         const { id } = req.params as DeleteCampaignInput;
-        // TODO: fix Cascade option for soft delete
+        // TODO: fix cascade option for soft delete
         const result = await db.repoManager.campaignRepo.deleteById(id, false);
-        res.json({ success: result.success });
+
+        if (!result.success) {
+            throw new NotFoundError('Campaign does not exist or is already deleted');
+        }
+
+        res.json({ success: true });
     }
 }
 
