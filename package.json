@@ -12,7 +12,8 @@
     "build": "rm -rf build && tsc",
     "start": "yarn build && node build/src/index.js",
     "lint": "npx eslint ./src/**/*.ts && npx prettier ./src/**/*.ts --check",
-    "test": "yarn build && jest"
+    "start-bg": "yarn start > /dev/null 2>&1 & echo $! > .pid",
+    "test": "yarn start-bg && sleep 5s && jest && killall -9 voucher || echo 'Test server is already stopped'"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
@@ -29,7 +30,8 @@
     "jest": "^29.7.0",
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "wait-on": "^7.0.1"
   },
   "dependencies": {
     "axios": "^1.5.1",

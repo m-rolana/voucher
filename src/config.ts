@@ -7,7 +7,7 @@ export type Config = {
     host: string;
     urlMount: string;
     db: DBConfig;
-    pageLimit: number,
+    pageLimit: number;
 };
 
 export type DBConfig = {
