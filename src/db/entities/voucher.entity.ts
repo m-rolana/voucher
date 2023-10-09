@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
-import BaseEntity from '@/db/entities/base';
-import { Campaign } from '@/db/entities/campaign.entity';
+import BaseEntity from './base';
+import { Campaign } from './campaign.entity';
 
 @Entity()
 export class Voucher extends BaseEntity {

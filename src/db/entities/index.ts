@@ -1,2 +1,7 @@
-export * from '@/db/entities/campaign.entity';
-export * from '@/db/entities/voucher.entity';
+import { Campaign } from './campaign.entity';
+import { Voucher } from './voucher.entity';
+
+export {
+    Campaign,
+    Voucher,
+}

@@ -1,6 +1,6 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-import BaseEntity from '@/db/entities/base';
-import { PREFIX, CURRENCY } from '@/types';
+import BaseEntity from './base';
+import { PREFIX, CURRENCY } from '../../types';
 import { Voucher } from './voucher.entity';
 
 

@@ -1,4 +1,4 @@
-import config from '../src/config';
+import config from '../../src/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 (async () => {
@@ -20,8 +20,8 @@ import { DataSource, DataSourceOptions } from 'typeorm';
     await tmpDB.initialize();
     const foundDBs = await tmpDB.query(`SELECT * FROM pg_database WHERE datname = '${database}'`);
 
-    if (!foundDBs.length) {
-        await tmpDB.query(`CREATE DATABASE ${database}`);
+    if (foundDBs.length) {
+        await tmpDB.query(`DROP DATABASE ${database} WITH (FORCE)`);
     }
 
     await tmpDB.destroy();

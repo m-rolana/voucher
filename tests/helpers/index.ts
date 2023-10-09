@@ -1,8 +1,6 @@
-import config from '../src/config';
-import logger from '../src/services/logger';
-import http from 'http';
-import qs from 'qs';
-import axios from 'axios';
+import config from '../../src/config';
+import logger from '../../src/services/logger';
+import axios, { AxiosError } from 'axios';
 
 type RequestPayload = {
     url: string;
@@ -14,18 +12,16 @@ type RequestPayload = {
 const serverUrl = `http://${config.host === '0.0.0.0' ? '127.0.0.1' : config.host}:${config.port}/api/`;
 
 function apiRequest({ url, method, queryParams = null, body = null }: RequestPayload) {
-    let fullUrl = serverUrl + url;
-
     logger.debug('apiRequest ', method, url, body);
 
     return axios({
-      method,
-      url: fullUrl,
-      params: queryParams,
-      data: body,
+        method,
+        url: serverUrl + url,
+        params: queryParams,
+        data: body,
+    }).catch((e) => {
+        return (e as AxiosError).response;
     });
 }
 
-export {
-    apiRequest,
-};
+export { apiRequest };
