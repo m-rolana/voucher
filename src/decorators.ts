@@ -3,7 +3,7 @@ import { CatchErrorParams } from '@/types';
 import { logger } from '@/services';
 import { InternalError } from '@/services/error';
 
-const toLogDefault = false;
+const toLogDefault = true;
 const toThrowDefault = true;
 
 function CatchError(opts: CatchErrorParams = { message: 'Something went wrong.', toLog: toLogDefault, toThrow: toThrowDefault }) {

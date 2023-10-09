@@ -15,8 +15,8 @@ class DB {
         username,
         password,
         database,
-        synchronize: config.isDev,
-        logging: config.isDev,
+        synchronize: config.isDev || config.isTest,
+        logging: config.isDev || config.isTest,
         entities: [__dirname + '/entities/*.entity{.js,.ts}'],
         migrations: [],
     });
@@ -34,6 +34,7 @@ class DB {
     }
 
     connect() {
+        this._logger.debug(this._db.options);
         return this._db
             .initialize()
             .then(async () => {
