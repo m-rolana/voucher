@@ -37,9 +37,30 @@ const campaignsInit = [
         0,
         'USD'::public."campaign_currency_enum",
         'RECHARGE'::public."campaign_prefix_enum"
-    );`
-]
+    );`,
+];
 
-export {
-    campaignsInit,
-};
+const vouchersInit = [
+    `INSERT INTO public.voucher
+    (id, created_at, updated_at, deleted_at, discount_code, campaign_id)
+    VALUES(
+        '00000000-0000-0000-0000-000000000001'::uuid,
+        '2023-10-07 09:33:43.562',
+        '2023-10-07 09:33:43.562',
+        NULL,
+        'RECHARGE-XXXXXX',
+        '00000000-0000-0000-0000-000000000003'::uuid
+    );`,
+    `INSERT INTO public.voucher
+    (id, created_at, updated_at, deleted_at, discount_code, campaign_id)
+    VALUES(
+        '00000000-0000-0000-0000-000000000002'::uuid,
+        '2023-10-07 09:33:43.562',
+        '2023-10-07 09:33:43.562',
+        NULL,
+        'RECHARGE-XXXXXX',
+        '00000000-0000-0000-0000-000000000003'::uuid
+    );`,
+];
+
+export { campaignsInit, vouchersInit };

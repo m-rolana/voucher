@@ -1,5 +1,4 @@
 import config from '../../src/config';
-import logger from '../../src/services/logger';
 import axios, { AxiosError } from 'axios';
 
 type RequestPayload = {
@@ -12,7 +11,7 @@ type RequestPayload = {
 const serverUrl = `http://${config.host === '0.0.0.0' ? '127.0.0.1' : config.host}:${config.port}/api/`;
 
 function apiRequest({ url, method, queryParams = null, body = null }: RequestPayload) {
-    logger.debug('apiRequest ', method, url, body);
+    console.debug('apiRequest ', method, url);
 
     return axios({
         method,

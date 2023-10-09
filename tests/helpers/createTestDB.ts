@@ -1,6 +1,6 @@
 import config from '../../src/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { campaignsInit } from './fixtures';
+import { campaignsInit, vouchersInit } from './fixtures';
 import path from 'path';
 
 (async () => {
@@ -32,7 +32,7 @@ import path from 'path';
     const db = new DataSource({ ...options, database } as DataSourceOptions);
     await db.initialize();
 
-    await db.query(campaignsInit.join('\n'))
+    await db.query([...campaignsInit, ...vouchersInit].join('\n'))
 
     await tmpDB.destroy();
     await db.destroy();

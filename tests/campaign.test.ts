@@ -136,7 +136,7 @@ describe('Campaign controller test', () => {
 
         it('Can list with skip', async () => {
             const payload = {
-                skip: 10,
+                skip: 1,
             };
 
             const result = await apiRequest({ url: 'campaigns', method: 'GET', queryParams: payload });
@@ -148,7 +148,7 @@ describe('Campaign controller test', () => {
         it('Can list with take and skip', async () => {
             const payload = {
                 take: 10,
-                skip: 10,
+                skip: 1,
             };
 
             const result = await apiRequest({ url: 'campaigns', method: 'GET', queryParams: payload });
