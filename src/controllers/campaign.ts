@@ -17,11 +17,11 @@ class CampaignController implements ICampaignController {
      * @apiName create
      * @apiGroup Campaign
      *
-     * @apiParam {Date} [startsAt=now]  Date, campaign starts at
-     * @apiParam {Date} [endsAt=null]   Date, campaign ends at
-     * @apiParam {Number} [amount=0]    Campaign amount
-     * @apiParam {String="USD","EUR"} [currency="USD"]  Currency of campaign's amount
-     * @apiParam {String="RECHARGE", "GIFT_CARD", "FREE_SHIPPING", "DISCOUNT"} prefix    Prefix for future discount codes
+     * @apiBody {Date} [startsAt=now]  Date, campaign starts at
+     * @apiBody {Date} [endsAt=null]   Date, campaign ends at
+     * @apiBody {Number} [amount=0]    Campaign amount
+     * @apiBody {String="USD","EUR"} [currency="USD"]  Currency of campaign's amount
+     * @apiBody {String="RECHARGE", "GIFT_CARD", "FREE_SHIPPING", "DISCOUNT"} prefix    Prefix for future discount codes
      *
      * @apiSuccess (Success HTTP) {Boolean} success     Request was successful
      * @apiSuccess (Success HTTP) {Object}  campaign     Created campaign
@@ -63,8 +63,8 @@ class CampaignController implements ICampaignController {
      * @apiName list
      * @apiGroup Campaign
      *
-     * @apiParam {Number{1-100}} [take=100] Amount of records to receive
-     * @apiParam {Number} [skip=0] Amount of records to skip
+     * @apiQuery {Number{1-100}} [take=100] Amount of records to receive
+     * @apiQuery {Number} [skip=0] Amount of records to skip
      *
      * @apiSuccess (Success HTTP) {Boolean}     success             Request was successful
      * @apiSuccess (Success HTTP) {Object[]}    campaigns

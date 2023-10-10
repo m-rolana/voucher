@@ -18,8 +18,8 @@ class VoucherController implements IVoucherController {
      * @apiName create
      * @apiGroup Voucher
      *
-     * @apiParam {String} campaignId    ID of campaign to create vouchers for
-     * @apiParam {Number} amount        Amount of vouchers to create
+     * @apiBody {String} campaignId    ID of campaign to create vouchers for
+     * @apiBody {Number} amount        Amount of vouchers to create
      *
      * @apiSuccess (Success HTTP) {Boolean}     success     Request was successful
      * @apiSuccess (Success HTTP) {Object[]}    vouchers    Created vouchers
@@ -71,9 +71,9 @@ class VoucherController implements IVoucherController {
      * @apiName list
      * @apiGroup Voucher
      *
-     * @apiParam {String} campaignId        ID of campaign to list vouchers for
-     * @apiParam {Number{1-100}} [take=100] Amount of records to receive
-     * @apiParam {Number} [skip=0]          Amount of records to skip
+     * @apiQuery {String} campaignId        ID of campaign to list vouchers for
+     * @apiQuery {Number{1-100}} [take=100] Amount of records to receive
+     * @apiQuery {Number} [skip=0]          Amount of records to skip
      *
      * @apiSuccess (Success HTTP) {Boolean}     success     Request was successful
      * @apiSuccess (Success HTTP) {Object[]}    vouchers    Created vouchers
@@ -125,7 +125,7 @@ class VoucherController implements IVoucherController {
      * @apiName export
      * @apiGroup Voucher
      *
-     * @apiParam {String} campaignId ID of campaign to list vouchers for
+     * @apiQuery {String} campaignId ID of campaign to list vouchers for
      *
      * @apiSuccess (Success 200) {File} file CSV file
      * @apiSuccessExample {File} Success-Response:
