@@ -28,6 +28,10 @@ class VoucherRepo extends BaseRepo {
 
         return result.generatedMaps;
     }
+
+    async find(options: object): Promise<Voucher[]> {
+        return this.repo.find(options) as unknown as Voucher[];
+    }
 }
 
 export default VoucherRepo;

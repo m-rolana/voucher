@@ -4,7 +4,7 @@ import { Repo } from "../types";
 class BaseRepo {
     private dataSource: DataSource;
     protected repo: Repo;
-    modelName: string;
+    protected modelName: string;
 
     constructor(dataSource: DataSource, entity: string) {
         this.dataSource = dataSource;

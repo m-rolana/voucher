@@ -26,7 +26,7 @@ class VoucherController implements IVoucherController {
         }
 
         const vouchers = await db.repoManager.voucherRepo.createMany(campaign.id, campaign.prefix, amount);
-        res.status(200).json(vouchers);
+        res.status(200).json({ success: true, vouchers });
     }
 
     // TODO: add doc
@@ -36,11 +36,11 @@ class VoucherController implements IVoucherController {
 
         const vouchers = await db.repoManager.voucherRepo.find({ where: { campaignId }, take, skip });
 
-        if (!vouchers || !vouchers.length) {
+        if (!vouchers.length) {
             return next(new NotFoundError(`There is no voucher for campaign ${campaignId}`));
         }
 
-        res.status(200).json(vouchers);
+        res.status(200).json({ success: true, vouchers });
     }
 
     // TODO: add doc
