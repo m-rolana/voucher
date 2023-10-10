@@ -28,7 +28,7 @@ describe('Campaign controller test', () => {
             const result = await apiRequest({ url, method, body: payload });
 
             expect(result?.status).toBe(200);
-            expect(result?.data).toBeTruthy();
+            expect(result?.data.success).toBeTruthy();
         });
 
         it('Returns campaign entity', async () => {
@@ -44,7 +44,7 @@ describe('Campaign controller test', () => {
             ]
 
             properties.forEach(p => {
-                expect(result?.data).toHaveProperty(p);
+                expect(result?.data.campaign).toHaveProperty(p);
             });
         });
 
@@ -107,8 +107,8 @@ describe('Campaign controller test', () => {
         it('Can list with min payload', async () => {
             const result = await apiRequest({ url, method });
             expect(result?.status).toBe(200);
-            expect(result?.data).toBeTruthy();
-            expect(result?.data.length).toBeTruthy();
+            expect(result?.data.success).toBeTruthy();
+            expect(result?.data.campaigns.length).toBeTruthy();
         });
 
         it('Can list with take', async () => {
@@ -118,8 +118,8 @@ describe('Campaign controller test', () => {
 
             const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(200);
-            expect(result?.data).toBeTruthy();
-            expect(result?.data.length).toBeTruthy();
+            expect(result?.data.success).toBeTruthy();
+            expect(result?.data.campaigns.length).toBeTruthy();
         });
 
         it('Can list with skip', async () => {
@@ -129,8 +129,8 @@ describe('Campaign controller test', () => {
 
             const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(200);
-            expect(result?.data).toBeTruthy();
-            expect(result?.data.length).toBeTruthy();
+            expect(result?.data.success).toBeTruthy();
+            expect(result?.data.campaigns.length).toBeTruthy();
         });
 
         it('Can list with take and skip', async () => {
@@ -142,8 +142,8 @@ describe('Campaign controller test', () => {
             const result = await apiRequest({ url, method, queryParams: payload });
 
             expect(result?.status).toBe(200);
-            expect(result?.data).toBeTruthy();
-            expect(result?.data.length).toBeTruthy();
+            expect(result?.data.success).toBeTruthy();
+            expect(result?.data.campaigns.length).toBeTruthy();
         });
 
         it('Returns campaigns', async () => {
@@ -153,7 +153,7 @@ describe('Campaign controller test', () => {
 
             const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(200);
-            expect(result?.data.length).toBe(2);
+            expect(result?.data.campaigns).toHaveLength(2);
         });
 
         it('Can NOT list with negative take', async () => {
