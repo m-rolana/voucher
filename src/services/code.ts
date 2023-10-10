@@ -1,9 +1,8 @@
 import _ from 'lodash';
 
 // TODO: make smth better
-function createCode() {
+function createCode(length = 6) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const length = 6;
 
     const indexes = _getRandomNumbers(length, 0, characters.length - 1);
     return _getValuesStringByIndexes(characters, indexes);

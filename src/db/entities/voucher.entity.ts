@@ -1,9 +1,10 @@
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, Index } from 'typeorm';
 import BaseEntity from './base';
 import { Campaign } from './campaign.entity';
 
 @Entity()
 export class Voucher extends BaseEntity {
+    @Index({ unique: true })
     @Column({
         name: 'discount_code',
         nullable: false,
