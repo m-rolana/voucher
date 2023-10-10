@@ -1,9 +1,9 @@
-import express from "express";
+import express, { Router } from "express";
 import campaignRouter from '@/routers/campaign.router';
 import voucherRouter from '@/routers/voucher.router';
 
 
-function createRouter() {
+function createRouter(): Router {
     const router = express.Router();
 
     router.use('/campaigns', campaignRouter.createRouter());

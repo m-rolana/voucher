@@ -1,9 +1,9 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { voucherController } from '@/controllers';
 import { validator } from '@/services';
 
 
-function createRouter() {
+function createRouter(): Router {
     const router = express.Router();
 
     router.post('/batch', validator.run('voucher.createMany'), voucherController.createMany);

@@ -1,16 +1,13 @@
-import { Request, Response, NextFunction } from '@/types';
-
-export type ControllerResponse = Response | void
-export type Controller = (req: Request, res: Response, next: NextFunction) => ControllerResponse | Promise<ControllerResponse>
+import { Middleware } from '@/types';
 
 export interface ICampaignController {
-    create: Controller,
-    list: Controller,
-    delete: Controller,
+    create: Middleware,
+    list: Middleware,
+    delete: Middleware,
 }
 
 export interface IVoucherController {
-    createMany: Controller,
-    list: Controller,
-    export: Controller,
+    createMany: Middleware,
+    list: Middleware,
+    export: Middleware,
 }
