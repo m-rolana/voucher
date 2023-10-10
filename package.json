@@ -15,7 +15,8 @@
     "create-test-db": "NODE_ENV=test node build/tests/helpers/createTestDB.js",
     "remove-test-db": "NODE_ENV=test node build/tests/helpers/removeTestDB.js",
     "start-test-server": "yarn build && yarn remove-test-db && yarn create-test-db && NODE_ENV=test yarn start",
-    "test": "jest"
+    "test": "jest",
+    "doc": "apidoc -i src -o apidoc"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",

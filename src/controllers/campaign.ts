@@ -40,7 +40,7 @@ class CampaignController implements ICampaignController {
      * @apiSuccessExample {json} Success-HTTP-Response:
      * {
      *  "success": true,
-     *   "campaign": {
+     *  "campaign": {
      *       "prefix": "RECHARGE",
      *       "deletedAt": null,
      *       "endsAt": null,
@@ -69,21 +69,21 @@ class CampaignController implements ICampaignController {
      * @apiParam {Number} [skip=0] Amount of records to skip
      *
      * @apiSuccess (Success HTTP) {Boolean}     success             Request was successful
-     * @apiSuccess (Success HTTP) {Object[]}    campaign
-     * @apiSuccess (Success HTTP) {String}      campaign.id
-     * @apiSuccess (Success HTTP) {String}      campaign.startsAt
-     * @apiSuccess (Success HTTP) {String}      campaign.endsAt
-     * @apiSuccess (Success HTTP) {Number}      campaign.amount
-     * @apiSuccess (Success HTTP) {String}      campaign.currency
-     * @apiSuccess (Success HTTP) {String}      campaign.prefix
-     * @apiSuccess (Success HTTP) {String}      campaign.createdAt
-     * @apiSuccess (Success HTTP) {String}      campaign.updatedAt
-     * @apiSuccess (Success HTTP) {String}      campaign.deletedAt
+     * @apiSuccess (Success HTTP) {Object[]}    campaigns
+     * @apiSuccess (Success HTTP) {String}      campaigns.id
+     * @apiSuccess (Success HTTP) {String}      campaigns.startsAt
+     * @apiSuccess (Success HTTP) {String}      campaigns.endsAt
+     * @apiSuccess (Success HTTP) {Number}      campaigns.amount
+     * @apiSuccess (Success HTTP) {String}      campaigns.currency
+     * @apiSuccess (Success HTTP) {String}      campaigns.prefix
+     * @apiSuccess (Success HTTP) {String}      campaigns.createdAt
+     * @apiSuccess (Success HTTP) {String}      campaigns.updatedAt
+     * @apiSuccess (Success HTTP) {String}      campaigns.deletedAt
      *
      * @apiSuccessExample {json} Success-HTTP-Response:
      * {
      *  "success": true,
-     *   "campaign": [
+     *  "campaigns": [
      *     {
      *       "prefix": "RECHARGE",
      *       "deletedAt": null,
