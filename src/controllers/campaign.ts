@@ -12,7 +12,7 @@ class CampaignController implements ICampaignController {
     async create(req: Request, res: Response): Promise<ControllerResponse> {
         const params = getRequestParams<CreateCampaignInput>(req);
         const campaign = await db.repoManager.campaignRepo.create(params);
-        return res.json(campaign);
+        return res.json({ success: true, campaign });
     }
 
     // TODO: add doc
@@ -21,7 +21,7 @@ class CampaignController implements ICampaignController {
         // TODO: add filter
         const { take = config.pageLimit, skip = 0 } = getRequestParams<ListCampaignInput>(req);
         const campaigns = await db.repoManager.campaignRepo.find({ take, skip });
-        res.json(campaigns);
+        res.json({ success: true, campaigns });
     }
 
     // TODO: add doc
