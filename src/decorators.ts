@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CatchErrorParams } from '@/types';
-import { logger } from '@/services';
-import { InternalError, SystemError } from '@/services/error';
+import { logger, InternalError, SystemError } from '@/services';
 
 const toLogDefault = true;
 const toThrowDefault = true;

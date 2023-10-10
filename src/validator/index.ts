@@ -1,8 +1,6 @@
 import _ from 'lodash';
-import { Request, Response, NextFunction, ValidationSchema, Middleware } from '@/types';
-import { ILogger } from '../services/logger';
-import { requestService } from '@/services';
-import { BadRequestError } from '@/services/error';
+import { Request, Response, NextFunction, ValidationSchema, Middleware, ILogger } from '@/types';
+import { getRequestParams, BadRequestError } from '@/services';
 
 class Validator {
     private logger: ILogger;
@@ -17,7 +15,7 @@ class Validator {
         return async (req: Request, res: Response, next: NextFunction) => {
             try {
                 const rule: ValidationSchema = _.get(this.rules, ruleKey);
-                const params = requestService.getRequestParams(req);
+                const params = getRequestParams(req);
                 await rule.validateAsync(params);
                 return next();
             } catch (e) {

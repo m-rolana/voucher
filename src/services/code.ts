@@ -3,8 +3,7 @@ import config from '@/config';
 
 const { discountCode: codeConfig } = config;
 
-// TODO: make smth better
-function createCode(length = codeConfig.length, characters = codeConfig.allowedChars) {
+function createCode(length: number = codeConfig.length, characters: string = codeConfig.allowedChars): string {
     if (length < 1) {
         throw new Error('Provide positive error!');
     }
@@ -13,12 +12,12 @@ function createCode(length = codeConfig.length, characters = codeConfig.allowedC
     return _getValuesStringByIndexes(characters, indexes);
 }
 
-function _getRandomNumbers(amount: number, min: number = 0, max: number = 9) {
+function _getRandomNumbers(amount: number, min: number = 0, max: number = 9): number[] {
     const arr = new Array(amount).fill('*');
     return arr.map(() => _.random(min, max));
 }
 
-function _getValuesStringByIndexes(source: string, indexes: Array<number>) {
+function _getValuesStringByIndexes(source: string, indexes: Array<number>): string {
     const valuesArray = indexes.map(i => source[i]);
     return valuesArray.join('');
 }

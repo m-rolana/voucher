@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import config from '@/config';
-import { ILogger } from '@/services/logger';
+import { ILogger } from '@/types';
 import RepoManager from '@/db/repo';
 
 const { host, port, password, user: username, name: database } = config.db;

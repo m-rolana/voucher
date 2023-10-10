@@ -1,6 +1,5 @@
 import config from '@/config';
-import { db } from '@/services';
-import { getRequestParams } from '@/services/request';
+import { db, getRequestParams, NotFoundError } from '@/services';
 import {
     Request,
     Response,
@@ -11,7 +10,6 @@ import {
 } from '@/types';
 import { ICampaignController } from './types';
 import { CatchError } from '@/decorators';
-import { NotFoundError } from '@/services/error';
 
 class CampaignController implements ICampaignController {
     /**

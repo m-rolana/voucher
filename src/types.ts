@@ -1,5 +1,6 @@
 import express from 'express';
 import Joi from 'joi';
+import { Logger } from 'winston';
 
 export type Request = express.Request;
 export type Response = express.Response;
@@ -94,3 +95,6 @@ export type DiscountCode = {
     allowedChars: string;
     length: number;
 };
+
+export interface ILogger extends Logger {}
+

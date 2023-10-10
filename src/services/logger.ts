@@ -1,4 +1,4 @@
-import { createLogger, format, transports, addColors, Logger } from 'winston';
+import { createLogger, format, transports, addColors } from 'winston';
 
 const { combine, errors, timestamp, colorize, printf } = format;
 
@@ -36,4 +36,3 @@ const logger = createLogger({
 });
 
 export default logger;
-export interface ILogger extends Logger {}

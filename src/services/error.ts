@@ -2,6 +2,8 @@ import { Response, NextFunction, Request } from '@/types';
 import { constants as StatusCodes } from 'http2';
 import { logger } from '@/services';
 
+type ErrorType = keyof typeof statusCodes;
+
 const statusCodes = {
     BadRequestError: StatusCodes.HTTP_STATUS_BAD_REQUEST,
     NotFoundError: StatusCodes.HTTP_STATUS_NOT_FOUND,
@@ -36,11 +38,13 @@ class InternalError extends SystemError {
     }
 }
 
-type ErrorType = keyof typeof statusCodes;
+function getErrorInstanceName(error: Error): ErrorType {
+    return error.name as ErrorType;
+}
 
-const getErrorInstanceName = (error: Error): ErrorType => error.name as ErrorType;
-
-const getStatusCode = (error: ErrorType): number => (statusCodes[error] ? statusCodes[error] : statusCodes.InternalError);
+function getStatusCode(error: ErrorType): number {
+    return statusCodes[error] ? statusCodes[error] : statusCodes.InternalError;
+}
 
 function handleRequestError(err: Error, req: Request, res: Response, next: NextFunction): Response | void {
     if (!err) {
