@@ -2,13 +2,17 @@ import { apiRequest } from './helpers';
 import { addSeconds } from 'date-fns';
 import { PREFIX } from '../src/types';
 
+const nonExistentCampaignId = '00000000-0000-0000-0000-000000000000';
+const invalidCampaignId = 'invalid';
+
 describe('Campaign controller test', () => {
     describe('Campaign create', () => {
+        const defaultPayload = { prefix: PREFIX.RECHARGE };
+        const url = 'campaigns';
+        const method = 'POST';
+
         it('Can create with min payload', async () => {
-            const payload = { prefix: PREFIX.RECHARGE };
-
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
-
+            const result = await apiRequest({ url, method, body: defaultPayload });
             expect(result?.status).toBe(200);
         });
 
@@ -21,16 +25,14 @@ describe('Campaign controller test', () => {
                 currency: 'EUR',
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
+            const result = await apiRequest({ url, method, body: payload });
 
             expect(result?.status).toBe(200);
             expect(result?.data).toBeTruthy();
         });
 
         it('Returns campaign entity', async () => {
-            const payload = { prefix: PREFIX.RECHARGE };
-
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
+            const result = await apiRequest({ url, method, body: defaultPayload });
             const properties = [
                 'id',
                 'startsAt',
@@ -43,30 +45,17 @@ describe('Campaign controller test', () => {
 
             properties.forEach(p => {
                 expect(result?.data).toHaveProperty(p);
-            })
+            });
         });
 
         it('Can NOT create w/o prefix', async () => {
-            const payload = {};
-
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
-
+            const result = await apiRequest({ url, method, body: {} });
             expect(result?.status).toBe(400);
         });
 
         it('Can NOT create with invalid prefix', async () => {
             const payload = { prefix: 'INVALID' };
-
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
-
-            expect(result?.status).toBe(400);
-        });
-
-        it('Can NOT create with invalid prefix', async () => {
-            const payload = { prefix: 'INVALID' };
-
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
-
+            const result = await apiRequest({ url, method, body: payload });
             expect(result?.status).toBe(400);
         });
 
@@ -76,8 +65,7 @@ describe('Campaign controller test', () => {
                 startsAt: addSeconds(new Date(), -1),
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
-
+            const result = await apiRequest({ url, method, body: payload });
             expect(result?.status).toBe(400);
         });
 
@@ -87,8 +75,7 @@ describe('Campaign controller test', () => {
                 endsAt: addSeconds(new Date(), -1),
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
-
+            const result = await apiRequest({ url, method, body: payload });
             expect(result?.status).toBe(400);
         });
 
@@ -98,8 +85,7 @@ describe('Campaign controller test', () => {
                 amount: -1,
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
-
+            const result = await apiRequest({ url, method, body: payload });
             expect(result?.status).toBe(400);
         });
 
@@ -109,18 +95,20 @@ describe('Campaign controller test', () => {
                 currency: 'INVALID',
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'POST', body: payload });
-
+            const result = await apiRequest({ url, method, body: payload });
             expect(result?.status).toBe(400);
         });
     });
 
     describe('Campaign list', () => {
+        const url = 'campaigns';
+        const method = 'GET';
 
         it('Can list with min payload', async () => {
-            const result = await apiRequest({ url: 'campaigns', method: 'GET' });
+            const result = await apiRequest({ url, method });
             expect(result?.status).toBe(200);
             expect(result?.data).toBeTruthy();
+            expect(result?.data.length).toBeTruthy();
         });
 
         it('Can list with take', async () => {
@@ -128,10 +116,10 @@ describe('Campaign controller test', () => {
                 take: 10,
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'GET', queryParams: payload });
-
+            const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(200);
             expect(result?.data).toBeTruthy();
+            expect(result?.data.length).toBeTruthy();
         });
 
         it('Can list with skip', async () => {
@@ -139,22 +127,23 @@ describe('Campaign controller test', () => {
                 skip: 1,
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'GET', queryParams: payload });
-
+            const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(200);
             expect(result?.data).toBeTruthy();
+            expect(result?.data.length).toBeTruthy();
         });
 
         it('Can list with take and skip', async () => {
             const payload = {
-                take: 10,
+                take: 1,
                 skip: 1,
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'GET', queryParams: payload });
+            const result = await apiRequest({ url, method, queryParams: payload });
 
             expect(result?.status).toBe(200);
             expect(result?.data).toBeTruthy();
+            expect(result?.data.length).toBeTruthy();
         });
 
         it('Returns campaigns', async () => {
@@ -162,8 +151,7 @@ describe('Campaign controller test', () => {
                 take: 2,
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'GET', queryParams: payload });
-
+            const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(200);
             expect(result?.data.length).toBe(2);
         });
@@ -173,8 +161,7 @@ describe('Campaign controller test', () => {
                 take: -1,
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'GET', queryParams: payload });
-
+            const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(400);
         });
 
@@ -183,8 +170,7 @@ describe('Campaign controller test', () => {
                 take: 1_000,
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'GET', queryParams: payload });
-
+            const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(400);
         });
 
@@ -193,29 +179,30 @@ describe('Campaign controller test', () => {
                 skip: -1,
             };
 
-            const result = await apiRequest({ url: 'campaigns', method: 'GET', queryParams: payload });
-
+            const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(400);
         });
     });
 
     describe('Campaign delete', () => {
+        const url = 'campaigns';
+        const method = 'DELETE';
 
         it('Can delete', async () => {
             const campaignId = '00000000-0000-0000-0000-000000000001';
-            const result = await apiRequest({ url: `campaigns/${campaignId}`, method: 'DELETE' });
+            const result = await apiRequest({ url: `${url}/${campaignId}`, method });
             expect(result?.status).toBe(200);
         });
 
         it('Can NOT delete non-existent', async () => {
-            const campaignId = '00000000-0000-0000-0000-000000000000';
-            const result = await apiRequest({ url: `campaigns/${campaignId}`, method: 'DELETE' });
+            const campaignId = nonExistentCampaignId;
+            const result = await apiRequest({ url: `${url}/${campaignId}`, method });
             expect(result?.status).toBe(404);
         });
 
         it('Can NOT delete by invalid id', async () => {
-            const campaignId = 'invalid';
-            const result = await apiRequest({ url: `campaigns/${campaignId}`, method: 'DELETE' });
+            const campaignId = invalidCampaignId;
+            const result = await apiRequest({ url: `${url}/${campaignId}`, method });
             expect(result?.status).toBe(500);
         });
 
