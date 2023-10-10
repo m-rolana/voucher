@@ -1,99 +1,111 @@
-import { apiRequest } from './helpers';
+import { apiRequest } from '../helpers';
+import { addSeconds } from 'date-fns';
+import { PREFIX } from '@/types';
 
 const nonExistentCampaignId = '00000000-0000-0000-0000-000000000000';
 const invalidCampaignId = 'invalid';
 
-describe('Voucher controller test', () => {
-    describe('Voucher create', () => {
-        const defaultCamapinId = '00000000-0000-0000-0000-000000000002';
-        const url = 'vouchers/batch';
+describe('Campaign controller test', () => {
+    describe('Campaign create', () => {
+        const defaultPayload = { prefix: PREFIX.RECHARGE };
+        const url = 'campaigns';
         const method = 'POST';
 
-        it('Can create', async () => {
-            const payload = {
-                campaignId: defaultCamapinId,
-                amount: 1,
-            };
-            const result = await apiRequest({ url, method, body: payload });
+        it('Can create with min payload', async () => {
+            const result = await apiRequest({ url, method, body: defaultPayload });
             expect(result?.status).toBe(200);
         });
 
-        it('Can create 100 vouchers', async () => {
+        it('Can create with max payload', async () => {
             const payload = {
-                campaignId: defaultCamapinId,
-                amount: 100,
-            };
-            const result = await apiRequest({ url, method, body: payload });
-            expect(result?.status).toBe(200);
-        });
-
-        it('Can NOT create more than 100 vouchers', async () => {
-            const payload = {
-                campaignId: defaultCamapinId,
-                amount: 101,
-            };
-            const result = await apiRequest({ url, method, body: payload });
-            expect(result?.status).toBe(400);
-        });
-
-        it('Can NOT create less than 1 vouchers', async () => {
-            const payload = {
-                campaignId: defaultCamapinId,
-                amount: 0,
-            };
-            const result = await apiRequest({ url, method, body: payload });
-            expect(result?.status).toBe(400);
-        });
-
-        it('Returns vouchers', async () => {
-            const payload = {
-                campaignId: defaultCamapinId,
+                prefix: PREFIX.RECHARGE,
+                startsAt: addSeconds(new Date(), 1),
+                endsAt: addSeconds(new Date(), 2),
                 amount: 1,
+                currency: 'EUR',
             };
 
             const result = await apiRequest({ url, method, body: payload });
+
             expect(result?.status).toBe(200);
-            expect(result?.data.length).toBe(1);
-            expect(result?.data[0].campaignId).toBe(payload.campaignId);
+            expect(result?.data).toBeTruthy();
         });
 
-        it('Can NOT create w/o campaignId', async () => {
-            const payload = {
-                amount: 1,
-            };
+        it('Returns campaign entity', async () => {
+            const result = await apiRequest({ url, method, body: defaultPayload });
+            const properties = [
+                'id',
+                'startsAt',
+                'endsAt',
+                'prefix',
+                'amount',
+                'currency',
+                'createdAt'
+            ]
+
+            properties.forEach(p => {
+                expect(result?.data).toHaveProperty(p);
+            });
+        });
+
+        it('Can NOT create w/o prefix', async () => {
+            const result = await apiRequest({ url, method, body: {} });
+            expect(result?.status).toBe(400);
+        });
+
+        it('Can NOT create with invalid prefix', async () => {
+            const payload = { prefix: 'INVALID' };
             const result = await apiRequest({ url, method, body: payload });
             expect(result?.status).toBe(400);
         });
 
-        it('Can NOT create for invalid campaignId', async () => {
+        it('Can NOT create if start date is in the past', async () => {
             const payload = {
-                campaignId: invalidCampaignId,
+                prefix: PREFIX.RECHARGE,
+                startsAt: addSeconds(new Date(), -1),
             };
+
             const result = await apiRequest({ url, method, body: payload });
             expect(result?.status).toBe(400);
         });
 
-        it('Can NOT create w/o amount', async () => {
+        it('Can NOT create if end date is less than start date', async () => {
             const payload = {
-                campaignId: defaultCamapinId,
+                prefix: PREFIX.RECHARGE,
+                endsAt: addSeconds(new Date(), -1),
             };
+
             const result = await apiRequest({ url, method, body: payload });
             expect(result?.status).toBe(400);
         });
 
+        it('Can NOT create with negative amount', async () => {
+            const payload = {
+                prefix: PREFIX.RECHARGE,
+                amount: -1,
+            };
+
+            const result = await apiRequest({ url, method, body: payload });
+            expect(result?.status).toBe(400);
+        });
+
+        it('Can NOT create with invalid currency', async () => {
+            const payload = {
+                prefix: PREFIX.RECHARGE,
+                currency: 'INVALID',
+            };
+
+            const result = await apiRequest({ url, method, body: payload });
+            expect(result?.status).toBe(400);
+        });
     });
 
-    describe('Voucher list', () => {
-        const defaultCamapinId = '00000000-0000-0000-0000-000000000003';
-        const url = 'vouchers';
+    describe('Campaign list', () => {
+        const url = 'campaigns';
         const method = 'GET';
 
         it('Can list with min payload', async () => {
-            const payload = {
-                campaignId: defaultCamapinId,
-            };
-
-            const result = await apiRequest({ url, method, queryParams: payload });
+            const result = await apiRequest({ url, method });
             expect(result?.status).toBe(200);
             expect(result?.data).toBeTruthy();
             expect(result?.data.length).toBeTruthy();
@@ -101,12 +113,10 @@ describe('Voucher controller test', () => {
 
         it('Can list with take', async () => {
             const payload = {
-                campaignId: defaultCamapinId,
                 take: 10,
             };
 
             const result = await apiRequest({ url, method, queryParams: payload });
-
             expect(result?.status).toBe(200);
             expect(result?.data).toBeTruthy();
             expect(result?.data.length).toBeTruthy();
@@ -114,7 +124,6 @@ describe('Voucher controller test', () => {
 
         it('Can list with skip', async () => {
             const payload = {
-                campaignId: defaultCamapinId,
                 skip: 1,
             };
 
@@ -126,32 +135,29 @@ describe('Voucher controller test', () => {
 
         it('Can list with take and skip', async () => {
             const payload = {
-                campaignId: defaultCamapinId,
-                take: 10,
+                take: 1,
                 skip: 1,
             };
 
             const result = await apiRequest({ url, method, queryParams: payload });
+
             expect(result?.status).toBe(200);
             expect(result?.data).toBeTruthy();
             expect(result?.data.length).toBeTruthy();
         });
 
-        it('Returns vouchers', async () => {
+        it('Returns campaigns', async () => {
             const payload = {
-                campaignId: defaultCamapinId,
                 take: 2,
             };
 
             const result = await apiRequest({ url, method, queryParams: payload });
             expect(result?.status).toBe(200);
             expect(result?.data.length).toBe(2);
-            expect(result?.data.length).toBeTruthy();
         });
 
         it('Can NOT list with negative take', async () => {
             const payload = {
-                campaignId: defaultCamapinId,
                 take: -1,
             };
 
@@ -161,7 +167,6 @@ describe('Voucher controller test', () => {
 
         it('Can NOT list with big take', async () => {
             const payload = {
-                campaignId: defaultCamapinId,
                 take: 1_000,
             };
 
@@ -171,7 +176,6 @@ describe('Voucher controller test', () => {
 
         it('Can NOT list with negative skip', async () => {
             const payload = {
-                campaignId: defaultCamapinId,
                 skip: -1,
             };
 
@@ -180,49 +184,27 @@ describe('Voucher controller test', () => {
         });
     });
 
-    describe('Voucher export', () => {
-        const url = 'vouchers/export';
-        const method = 'GET';
+    describe('Campaign delete', () => {
+        const url = 'campaigns';
+        const method = 'DELETE';
 
-        it('Can export', async () => {
-            const payload = {
-                campaignId: '00000000-0000-0000-0000-000000000003',
-            };
-
-            const result = await apiRequest({ url, method, queryParams: payload });
+        it('Can delete', async () => {
+            const campaignId = '00000000-0000-0000-0000-000000000001';
+            const result = await apiRequest({ url: `${url}/${campaignId}`, method });
             expect(result?.status).toBe(200);
-            expect(result?.headers['content-type']).toBe('text/csv');
-            expect(result?.data).toBeTruthy();
         });
 
-        it('Can export when no vouchers', async () => {
-            const payload = {
-                campaignId: '00000000-0000-0000-0000-000000000002',
-            };
-
-            const result = await apiRequest({ url, method, queryParams: payload });
-            expect(result?.status).toBe(200);
-            expect(result?.headers['content-type']).toBe('text/csv');
-            expect(result?.data).toBeTruthy();
-        });
-
-        it('Can NOT export for non-existent campaign', async () => {
-            const payload = {
-                campaignId: nonExistentCampaignId,
-            };
-
-            const result = await apiRequest({ url, method, queryParams: payload });
+        it('Can NOT delete non-existent', async () => {
+            const campaignId = nonExistentCampaignId;
+            const result = await apiRequest({ url: `${url}/${campaignId}`, method });
             expect(result?.status).toBe(404);
         });
 
-        it('Can NOT export for invalid campaign', async () => {
-            const payload = {
-                campaignId: invalidCampaignId,
-            };
-
-            const result = await apiRequest({ url, method, queryParams: payload });
-            expect(result?.status).toBe(400);
+        it('Can NOT delete by invalid id', async () => {
+            const campaignId = invalidCampaignId;
+            const result = await apiRequest({ url: `${url}/${campaignId}`, method });
+            expect(result?.status).toBe(500);
         });
-    });
 
+    });
 });

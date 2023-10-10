@@ -10,6 +10,7 @@ export type Config = {
     urlMount: string;
     db: DBConfig;
     pageLimit: number;
+    discountCode: DiscountCode;
 };
 
 export type DBConfig = {
@@ -19,6 +20,11 @@ export type DBConfig = {
     port: number;
     host: string;
 };
+
+export type DiscountCode = {
+    allowedChars: string;
+    length: number;
+}
 
 const getDotEnvPath = (env?: string) => {
     if (env == 'test') {
@@ -48,6 +54,10 @@ const config: Config = {
         host: process.env.DB_HOST || 'localhost',
     },
     pageLimit: 100,
+    discountCode: {
+        allowedChars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        length: 6,
+    },
 };
 
 export default config;

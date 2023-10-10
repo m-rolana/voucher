@@ -1,8 +1,13 @@
 import _ from 'lodash';
+import config from '@/config';
+
+const { discountCode: codeConfig } = config;
 
 // TODO: make smth better
-function createCode(length = 6) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+function createCode(length = codeConfig.length, characters = codeConfig.allowedChars) {
+    if (length < 1) {
+        throw new Error('Provide positive error!');
+    }
 
     const indexes = _getRandomNumbers(length, 0, characters.length - 1);
     return _getValuesStringByIndexes(characters, indexes);

@@ -3,6 +3,7 @@ version: '3.7'
 services:
 
   db:
+    container_name: voucher_db
     image: "postgres:15.4"
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -14,5 +15,17 @@ services:
       - db-data:${DB_DATA} # persist data even if container shuts down
     restart: always
 
+  api:
+    container_name: voucher_api
+    build: .
+    depends_on:
+      - db
+    ports:
+      - 4000:4000
+    volumes:
+      - api-data:/api
+    restart: always
+
 volumes:
   db-data:
+  api-data:
