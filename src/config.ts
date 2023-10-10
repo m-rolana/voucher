@@ -1,32 +1,8 @@
 import dotenv from 'dotenv';
 import path from 'path';
+import { Config } from './types';
 
-export type Config = {
-    env: string;
-    isDev: boolean;
-    isTest: boolean;
-    port: number;
-    host: string;
-    urlMount: string;
-    db: DBConfig;
-    pageLimit: number;
-    discountCode: DiscountCode;
-};
-
-export type DBConfig = {
-    password: string;
-    user: string;
-    name: string;
-    port: number;
-    host: string;
-};
-
-export type DiscountCode = {
-    allowedChars: string;
-    length: number;
-}
-
-const getDotEnvPath = (env?: string) => {
+const getDotEnvPath = (env?: string): string => {
     if (env == 'test') {
         return '.env.test';
     }
