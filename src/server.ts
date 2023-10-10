@@ -4,9 +4,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { logger, db, errorService } from '@/services';
 import createRouter from '@/routers';
+import helmet from 'helmet';
 
 const app = express();
 
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(config.urlMount, createRouter());
 app.use(errorService.handleRequestError);
