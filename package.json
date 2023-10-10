@@ -17,7 +17,7 @@
     "remove-test-db": "NODE_ENV=test node -e 'require(\"./build/tests/helpers/dropDb.js\").dropDb()'",
     "start-test-server": "yarn build && yarn remove-test-db && yarn create-test-db && NODE_ENV=test yarn start",
     "test": "jest",
-    "doc": "apidoc -i src -o apidoc"
+    "doc": "apidoc -i src -o docs"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
