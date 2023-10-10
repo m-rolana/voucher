@@ -6,13 +6,13 @@ import { PREFIX } from '@/types';
 
 
 class VoucherRepo extends BaseRepo {
-    modelName = 'voucher';
+    protected readonly modelName = 'voucher';
 
     constructor(dataSource: DataSource) {
         super(dataSource, Voucher.name);
     }
 
-    async createMany(campaignId: string, campaignPrefix: PREFIX, amount: number) {
+    async createMany(campaignId: string, campaignPrefix: PREFIX, amount: number): Promise<Voucher[]> {
         const valuesTemplate = new Array(amount).fill('*');
         const values = valuesTemplate.map(() => ({
             campaignId,
@@ -26,7 +26,7 @@ class VoucherRepo extends BaseRepo {
             .values(values)
             .execute();
 
-        return result.generatedMaps;
+        return result.generatedMaps as Voucher[];
     }
 
     async find(options: object): Promise<Voucher[]> {

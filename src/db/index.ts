@@ -25,22 +25,25 @@ class DB {
         this._logger = logger;
     }
 
-    get connection() {
+    get connection(): DataSource {
         return this._db;
     }
 
-    get repoManager() {
+    get repoManager(): RepoManager {
         return new RepoManager(this._db);
     }
 
-    connect() {
+    connect(): Promise<DataSource | void> {
         this._logger.debug(this._db.options);
         return this._db
             .initialize()
-            .then(async () => {
+            .then(async (result) => {
                 this._logger.info('Database connection is initialized!');
+                return result;
             })
-            .catch((error) => this._logger.error(error));
+            .catch((error) => {
+                this._logger.error(error);
+            });
     }
 }
 

@@ -1,10 +1,10 @@
 import { DataSource, ObjectLiteral, Repository } from "typeorm";
-import { Repo } from "../types";
+import { DeleteResult, Repo } from "../types";
 
 class BaseRepo {
-    private dataSource: DataSource;
-    protected repo: Repo;
-    protected modelName: string;
+    private readonly dataSource: DataSource;
+    protected readonly repo: Repo;
+    protected readonly modelName: string;
 
     constructor(dataSource: DataSource, entity: string) {
         this.dataSource = dataSource;
@@ -20,11 +20,11 @@ class BaseRepo {
         return this.repo.save(data);
     }
 
-    async find(options: object) {
+    async find(options: object): Promise<ObjectLiteral[]> {
         return this.repo.find(options);
     }
 
-    async deleteById(id: string, isSoft: boolean = true) {
+    async deleteById(id: string, isSoft: boolean = true): Promise<DeleteResult> {
         const queryBuilder = this.repo
             .createQueryBuilder(this.modelName);
 
@@ -41,7 +41,7 @@ class BaseRepo {
         };
     }
 
-    findById(id: string) {
+    findById(id: string): Promise<ObjectLiteral | null> {
         return this.repo.findOne({
             where: { id },
         });

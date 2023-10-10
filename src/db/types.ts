@@ -8,3 +8,7 @@ export interface IRepoManager {
 
     get campaignRepo(): CampaignRepo;
 }
+
+export type DeleteResult = {
+    success: boolean,
+};
