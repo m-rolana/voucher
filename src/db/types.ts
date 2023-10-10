@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import CampaignRepo from '@/db/repo/campaign.repo';
 
-export type Repo = ReturnType<DataSource["getRepository"]>;
+export type Repo = ReturnType<DataSource['getRepository']>;
 
 export interface IRepoManager {
     readonly _dataSource: DataSource;
@@ -10,5 +10,5 @@ export interface IRepoManager {
 }
 
 export type DeleteResult = {
-    success: boolean,
+    success: boolean;
 };

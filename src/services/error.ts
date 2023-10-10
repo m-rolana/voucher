@@ -58,10 +58,4 @@ function handleRequestError(err: Error, req: Request, res: Response, next: NextF
     res.status(statusCode).json({ success: false, error: errorMessage });
 }
 
-export {
-    SystemError,
-    BadRequestError,
-    NotFoundError,
-    InternalError,
-    handleRequestError,
-};
+export { SystemError, BadRequestError, NotFoundError, InternalError, handleRequestError };

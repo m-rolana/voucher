@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "rm -rf build && tsc",
-    "start": "yarn build && node build/src/index.js",
+    "dev": "yarn build && node build/src/index.js",
+    "start": "node build/src/index.js",
     "lint": "npx eslint ./src/**/*.ts && npx prettier ./src/**/*.ts --check",
     "create-test-db": "NODE_ENV=test node build/tests/helpers/createTestDB.js",
     "remove-test-db": "NODE_ENV=test node build/tests/helpers/removeTestDB.js",

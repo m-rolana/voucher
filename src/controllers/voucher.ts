@@ -13,7 +13,6 @@ import { CatchError } from '@/decorators';
 import config from '@/config';
 
 class VoucherController implements IVoucherController {
-
     /**
      * @api {post} /vouchers/batch Create new vouchers
      * @apiName create
@@ -144,14 +143,10 @@ class VoucherController implements IVoucherController {
         }
 
         const filename = `vouchers_of_${campaignId}.csv`;
-        res.setHeader("Content-Type", "text/csv");
-        res.setHeader("Content-Disposition", `attachment; filename=${filename}`);
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
 
-        return vouchersToCSV(
-            campaignId,
-            () => res.status(200).end(),
-            res,
-        );
+        return vouchersToCSV(campaignId, () => res.status(200).end(), res);
     }
 }
 

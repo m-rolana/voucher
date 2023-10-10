@@ -10,8 +10,4 @@ export * from './request';
 export * from './code';
 export * from './error';
 export * from './exporter';
-export {
-    logger,
-    db,
-    validator,
-};
+export { logger, db, validator };

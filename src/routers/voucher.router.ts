@@ -2,7 +2,6 @@ import express, { Router } from 'express';
 import { voucherController } from '@/controllers';
 import { validator } from '@/services';
 
-
 function createRouter(): Router {
     const router = express.Router();
 

@@ -18,10 +18,8 @@ function _getRandomNumbers(amount: number, min: number = 0, max: number = 9): nu
 }
 
 function _getValuesStringByIndexes(source: string, indexes: Array<number>): string {
-    const valuesArray = indexes.map(i => source[i]);
+    const valuesArray = indexes.map((i) => source[i]);
     return valuesArray.join('');
 }
 
-export {
-    createCode,
-};
+export { createCode };

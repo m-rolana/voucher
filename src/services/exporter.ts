@@ -6,7 +6,11 @@ import config from '@/config';
 import _ from 'lodash';
 import { Voucher } from '@/db/entities';
 
-async function vouchersToCSV<T extends NodeJS.WritableStream>(campaignId: string, onFinish: Callback, destination: T): Promise<void> {
+async function vouchersToCSV<T extends NodeJS.WritableStream>(
+    campaignId: string,
+    onFinish: Callback,
+    destination: T,
+): Promise<void> {
     const stringifier = _initStringifier(onFinish);
     const take = config.pageLimit;
     let skip = 0;
