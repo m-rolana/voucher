@@ -1,11 +1,7 @@
-Documentation
-```
-apidoc/index.html
-```
-or
-```
-https://github.com/m-rolana/voucher/blob/main/apidoc/index.html
-```
+## Documentation
+See https://m-rolana.github.io/voucher/
+Location [./docs](https://github.com/m-rolana/voucher/tree/main/docs)
+
 
 ## Run
 ```bash
