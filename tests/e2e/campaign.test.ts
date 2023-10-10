@@ -1,4 +1,4 @@
-import { apiRequest } from '../helpers';
+import apiRequest from '../helpers/apiRequest';
 import { addSeconds } from 'date-fns';
 import { PREFIX } from '@/types';
 

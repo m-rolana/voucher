@@ -24,13 +24,10 @@ class BaseRepo {
         return this.repo.find(options);
     }
 
-    async deleteById(id: string, isSoft: boolean = true): Promise<DeleteResult> {
-        const queryBuilder = this.repo
-            .createQueryBuilder(this.modelName);
-
-        const queryDelete = isSoft ? queryBuilder.softDelete() : queryBuilder.delete();
-
-        const result = await queryDelete
+    async deleteById(id: string): Promise<DeleteResult> {
+        const result = await this.repo
+            .createQueryBuilder(this.modelName)
+            .delete()
             .returning('*')
             .where(`id = '${id}'`)
             .andWhere(`deleted_at is null`)

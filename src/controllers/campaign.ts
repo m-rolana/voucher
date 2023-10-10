@@ -109,7 +109,6 @@ class CampaignController implements ICampaignController {
      */
     @CatchError({ message: 'Failed to list campaigns.' })
     async list(req: Request, res: Response): Promise<MiddlewareResponse> {
-        // TODO: add filter
         const { take = config.pageLimit, skip = 0 } = getRequestParams<ListCampaignInput>(req);
         const campaigns = await db.repoManager.campaignRepo.find({ take, skip });
         res.json({ success: true, campaigns });
@@ -130,8 +129,7 @@ class CampaignController implements ICampaignController {
     @CatchError({ message: 'Failed to delete campaign.' })
     async delete(req: Request, res: Response): Promise<MiddlewareResponse> {
         const { id } = req.params as DeleteCampaignInput;
-        // TODO: fix cascade option for soft delete
-        const result = await db.repoManager.campaignRepo.deleteById(id, false);
+        const result = await db.repoManager.campaignRepo.deleteById(id);
 
         if (!result.success) {
             throw new NotFoundError('Campaign does not exist or is already deleted');

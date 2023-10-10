@@ -13,8 +13,8 @@
     "dev": "yarn build && node build/src/index.js",
     "start": "node build/src/index.js",
     "lint": "npx eslint ./src/**/*.ts && npx prettier ./src/**/*.ts --check",
-    "create-test-db": "NODE_ENV=test node build/tests/helpers/createTestDB.js",
-    "remove-test-db": "NODE_ENV=test node build/tests/helpers/removeTestDB.js",
+    "create-test-db": "NODE_ENV=test node -e 'require(\"./build/tests/helpers/createDb.js\").createDb()'",
+    "remove-test-db": "NODE_ENV=test node -e 'require(\"./build/tests/helpers/dropDb.js\").dropDb()'",
     "start-test-server": "yarn build && yarn remove-test-db && yarn create-test-db && NODE_ENV=test yarn start",
     "test": "jest",
     "doc": "apidoc -i src -o apidoc"

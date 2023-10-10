@@ -21,4 +21,4 @@ function apiRequest({ url, method, queryParams = null, body = null }: RequestPay
     });
 }
 
-export { apiRequest };
+export default apiRequest;

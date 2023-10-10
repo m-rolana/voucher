@@ -1,4 +1,4 @@
-import { apiRequest } from '../helpers';
+import apiRequest from '../helpers/apiRequest';
 
 const nonExistentCampaignId = '00000000-0000-0000-0000-000000000000';
 const invalidCampaignId = 'invalid';
@@ -84,7 +84,7 @@ describe('Voucher controller test', () => {
     });
 
     describe('Voucher list', () => {
-        const defaultCampaignId = '00000000-0000-0000-0000-000000000003';
+        const defaultCampaignId = '00000000-0000-0000-0000-000000000004';
         const url = 'vouchers';
         const method = 'GET';
 
@@ -185,7 +185,7 @@ describe('Voucher controller test', () => {
 
         it('Can export', async () => {
             const payload = {
-                campaignId: '00000000-0000-0000-0000-000000000003',
+                campaignId: '00000000-0000-0000-0000-000000000004',
             };
 
             const result = await apiRequest({ url, method, queryParams: payload });
@@ -196,7 +196,7 @@ describe('Voucher controller test', () => {
 
         it('Can export when no vouchers', async () => {
             const payload = {
-                campaignId: '00000000-0000-0000-0000-000000000002',
+                campaignId: '00000000-0000-0000-0000-000000000004',
             };
 
             const result = await apiRequest({ url, method, queryParams: payload });
