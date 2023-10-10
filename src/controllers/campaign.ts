@@ -1,14 +1,19 @@
 import config from '@/config';
 import { db } from '@/services';
 import { getRequestParams } from '@/services/request';
-import { Request, Response, CreateCampaignInput, ListCampaignInput, DeleteCampaignInput } from '@/types';
-import { MiddlewareResponse } from '@/types';
+import {
+    Request,
+    Response,
+    CreateCampaignInput,
+    ListCampaignInput,
+    DeleteCampaignInput,
+    MiddlewareResponse,
+} from '@/types';
 import { ICampaignController } from './types';
 import { CatchError } from '@/decorators';
 import { NotFoundError } from '@/services/error';
 
 class CampaignController implements ICampaignController {
-
     /**
      * @api {post} /campaigns Create new campaign
      * @apiName create

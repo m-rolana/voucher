@@ -6,8 +6,9 @@ import {
     ListVoucherInput,
     ExportVouchersInput,
     NextFunction,
+    MiddlewareResponse,
 } from '@/types';
-import { IVoucherController, ControllerResponse } from './types';
+import { IVoucherController } from './types';
 import { getRequestParams } from '@/services/request';
 import { CatchError } from '@/decorators';
 import { NotFoundError } from '@/services/error';
@@ -17,7 +18,7 @@ import { vouchersToCSV } from '@/services/exporter';
 class VoucherController implements IVoucherController {
     // TODO: add doc
     @CatchError({ message: 'Failed to create vouchers.' })
-    async createMany(req: Request, res: Response): Promise<ControllerResponse> {
+    async createMany(req: Request, res: Response): Promise<MiddlewareResponse> {
         const { campaignId, amount } = getRequestParams<CreateVoucherManyInput>(req);
         const campaign = await db.repoManager.campaignRepo.findById(campaignId);
 
@@ -31,7 +32,7 @@ class VoucherController implements IVoucherController {
 
     // TODO: add doc
     @CatchError({ message: 'Failed to list vouchers.' })
-    async list(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
+    async list(req: Request, res: Response, next: NextFunction): Promise<MiddlewareResponse> {
         const { campaignId, take = config.pageLimit, skip = 0 } = getRequestParams<ListVoucherInput>(req);
 
         const vouchers = await db.repoManager.voucherRepo.find({ where: { campaignId }, take, skip });
@@ -45,7 +46,7 @@ class VoucherController implements IVoucherController {
 
     // TODO: add doc
     @CatchError({ message: 'Failed to export vouchers.' })
-    async export(req: Request, res: Response, next: NextFunction): Promise<ControllerResponse> {
+    async export(req: Request, res: Response, next: NextFunction): Promise<MiddlewareResponse> {
         const { campaignId } = getRequestParams<ExportVouchersInput>(req);
 
         if (!campaignId) {
