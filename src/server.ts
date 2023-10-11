@@ -1,13 +1,15 @@
 import 'module-alias/register';
-import config from '@/config';
 import express from 'express';
+import helmet from 'helmet';
 import bodyParser from 'body-parser';
+import cors from 'cors';
+import config from '@/config';
 import { logger, db, handleRequestError } from '@/services';
 import createRouter from '@/routers';
-import helmet from 'helmet';
 
 const app = express();
 
+app.use(cors({ origin: config.corsOrigin }));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(config.urlMount, createRouter());

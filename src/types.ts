@@ -81,6 +81,7 @@ export type Config = {
     db: DBConfig;
     pageLimit: number;
     discountCode: DiscountCode;
+    corsOrigin: string,
 };
 
 export type DBConfig = {

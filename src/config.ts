@@ -34,6 +34,7 @@ const config: Config = {
         allowedChars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
         length: 6,
     },
+    corsOrigin: process.env.CORS_ORIGIN || '',
 };
 
 export default config;
