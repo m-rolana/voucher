@@ -4,6 +4,10 @@ node_modules/
 build/
 tmp/
 temp/
+
 .env*
+!.env.example
+!.env.test
+
 *.log
 coverage
