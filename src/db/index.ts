@@ -2,7 +2,8 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import config from '@/config';
 import { ILogger } from '@/types';
-import RepoManager from '@/db/repo';
+import initRepo from '@/db/repo';
+import { IRepoManager } from './types';
 
 const { host, port, password, user: username, name: database } = config.db;
 
@@ -20,17 +21,19 @@ class DB {
         entities: [__dirname + '/entities/*.entity{.js,.ts}'],
         migrations: [],
     });
+    readonly _repoManager;
 
     constructor(logger: ILogger) {
         this._logger = logger;
+        this._repoManager = initRepo(this._db);
     }
 
     get connection(): DataSource {
         return this._db;
     }
 
-    get repoManager(): RepoManager {
-        return new RepoManager(this._db);
+    get repoManager(): IRepoManager {
+        return this._repoManager;
     }
 
     connect(): Promise<DataSource | void> {

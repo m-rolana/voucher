@@ -81,7 +81,7 @@ export type Config = {
     db: DBConfig;
     pageLimit: number;
     discountCode: DiscountCode;
-    corsOrigin: string,
+    corsOrigin: string;
 };
 
 export type DBConfig = {
@@ -99,3 +99,7 @@ export type DiscountCode = {
 
 export interface ILogger extends Logger {}
 
+export interface Constructable<T> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    new (...args: any): T;
+}

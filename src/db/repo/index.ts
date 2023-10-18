@@ -1,23 +1,20 @@
-import { DataSource } from "typeorm";
+import _ from 'lodash';
+import { DataSource } from 'typeorm';
 import CampaignRepo from '@/db/repo/campaign.repo';
 import VoucherRepo from '@/db/repo/voucher.repo';
-import { IRepoManager } from "../types";
+import { IRepoManager } from '../types';
 
+const repoClasses = [CampaignRepo, VoucherRepo];
 
-class RepoManager implements IRepoManager {
-    readonly _dataSource: DataSource;
+function init(dataSource: DataSource): IRepoManager {
+    const repos = {};
 
-    constructor(dataSource: DataSource) {
-        this._dataSource = dataSource;
+    for (const R of repoClasses) {
+        const repoName = _.camelCase(R.name);
+        _.set(repos, repoName, new R(dataSource));
     }
 
-    get campaignRepo(): CampaignRepo {
-        return new CampaignRepo(this._dataSource);
-    }
-
-    get voucherRepo(): VoucherRepo {
-        return new VoucherRepo(this._dataSource);
-    }
+    return repos as IRepoManager;
 }
 
-export default RepoManager;
+export default init;
